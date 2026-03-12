@@ -64,7 +64,7 @@ export async function getBudgets(year: number) {
     }
   })
 
-  const spentByMonth = expenses.reduce((acc: Record<number, number>, curr) => {
+  const spentByMonth = expenses.reduce((acc: Record<number, number>, curr: { date: Date; amount: number }) => {
     const m = curr.date.getMonth() + 1 // 1-12
     acc[m] = (acc[m] || 0) + curr.amount
     return acc

@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getCategories } from "@/actions/category";
-import CategoryClient from "./CategoryClient";
+import CategoryClient from "@/app/dashboard/categories/CategoryClient";
 
 export default async function CategoriesPage() {
   const session = await getServerSession(authOptions);

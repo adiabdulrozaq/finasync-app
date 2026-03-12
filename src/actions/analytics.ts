@@ -36,8 +36,8 @@ export async function getDashboardAnalytics(days = 30) {
   });
 
   // Calculate totals
-  const totalIncome = transactions.filter(t => t.type === "INCOME").reduce((acc, curr) => acc + curr.amount, 0);
-  const totalExpense = transactions.filter(t => t.type === "EXPENSE").reduce((acc, curr) => acc + curr.amount, 0);
+  const totalIncome = transactions.filter((t: { type: string }) => t.type === "INCOME").reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
+  const totalExpense = transactions.filter((t: { type: string }) => t.type === "EXPENSE").reduce((acc: number, curr: { amount: number }) => acc + curr.amount, 0);
   const balance = totalIncome - totalExpense;
 
   // Group by day for charts
@@ -56,7 +56,7 @@ export async function getDashboardAnalytics(days = 30) {
   }
 
   // Populate data
-  transactions.forEach((t) => {
+  transactions.forEach((t: { type: string; amount: number; date: Date }) => {
     const dateStr = format(t.date, "yyyy-MM-dd");
     if (chartDataMap.has(dateStr)) {
       const existing = chartDataMap.get(dateStr);
