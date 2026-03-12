@@ -50,6 +50,7 @@ model User {
   sessions      Session[]
   transactions  Transaction[]
   categories    Category[]
+  budgets       Budget[]
 }
 
 model VerificationToken {
@@ -67,17 +68,32 @@ model Transaction {
   date        DateTime @default(now())
   type        TransactionType
   categoryId  String?
-  category    Category? @relation(fields: [categoryId], references: [id])
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Budget {
+  id           String   @id @default(cuid())
+  amount       Float
+  month        Int      // 1-12
+  year         Int      // e.g. 2024
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, month, year])
 }
 
 model Category {
   id          String   @id @default(cuid())
   name        String
   type        TransactionType
+  color       String?  @default("#3b82f6")
+  icon        String?  @default("Wallet")
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]

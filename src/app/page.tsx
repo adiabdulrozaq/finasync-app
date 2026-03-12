@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, PieChart, Wallet } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)]">
-      {/* Hero Section */}
-      <section className="w-full py-20 md:py-32 bg-gradient-to-b from-white to-blue-50 text-center px-4">
+    <>
+      <Navbar />
+      <main className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)]">
+        {/* Hero Section */}
+        <section className="w-full py-20 md:py-32 bg-gradient-to-b from-white to-blue-50 text-center px-4">
         <div className="container mx-auto max-w-4xl">
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 heading-animate">
             Aman. Mudah. <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Terpercaya.</span>
@@ -48,7 +51,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+      </main>
+    </>
   );
 }
 

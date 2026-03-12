@@ -3,6 +3,8 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import DashboardClient from "./DashboardClient";
 import { getTransactions } from "@/actions/transaction";
+import { getDashboardAnalytics } from "@/actions/analytics";
+import { getCategories } from "@/actions/category";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -12,6 +14,8 @@ export default async function DashboardPage() {
   }
 
   const transactions = await getTransactions();
+  const analytics = await getDashboardAnalytics(30);
+  const categories = await getCategories();
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
@@ -24,7 +28,7 @@ export default async function DashboardPage() {
             Berikut adalah ringkasan keuangan Anda.
           </p>
         </div>
-        <DashboardClient initialTransactions={transactions} />
+        <DashboardClient initialTransactions={transactions} analytics={analytics} categories={categories} />
       </div>
     </div>
   );
