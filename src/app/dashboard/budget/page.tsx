@@ -17,14 +17,18 @@ export default async function BudgetPage() {
   return (
     <div className="w-full space-y-6">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Target Anggaran Bulanan</h1>
-        <p className="text-gray-500">Kelola dan pantau batas pengeluaran Anda agar tetap hemat sepanjang tahun {currentYear}.</p>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground)]">
+          Target Anggaran Bulanan
+        </h1>
+        <p className="text-[var(--muted-foreground)]">
+          Kelola dan pantau batas pengeluaran Anda agar tetap hemat sepanjang tahun {currentYear}.
+        </p>
       </div>
-      
-      <BudgetClient 
-        initialBudgets={budgets} 
-        spentByMonth={spentByMonth} 
-        currentYear={currentYear} 
+
+      <BudgetClient
+        initialBudgets={budgets}
+        spentByMonth={spentByMonth}
+        currentYear={currentYear}
       />
     </div>
   );

@@ -12,18 +12,27 @@ export async function createBudget({ amount, month, year }: { amount: number; mo
     throw new Error("Unauthorized")
   }
 
-  const budget = await prisma.budget.upsert({
+  // Find existing budget for this user/month/year (without category)
+  const existing = await prisma.budget.findFirst({
     where: {
-      userId_month_year: {
-        userId: session.user.id,
-        month,
-        year,
-      }
-    },
-    update: {
-      amount,
-    },
-    create: {
+      userId: session.user.id,
+      month,
+      year,
+      categoryId: null,
+    }
+  })
+
+  if (existing) {
+    const budget = await prisma.budget.update({
+      where: { id: existing.id },
+      data: { amount },
+    })
+    revalidatePath("/dashboard/budget")
+    return budget
+  }
+
+  const budget = await prisma.budget.create({
+    data: {
       amount,
       month,
       year,
@@ -52,7 +61,6 @@ export async function getBudgets(year: number) {
     }
   })
 
-  // Also calculate total expenses per month for this year
   const expenses = await prisma.transaction.findMany({
     where: {
       userId: session.user.id,
@@ -65,7 +73,7 @@ export async function getBudgets(year: number) {
   })
 
   const spentByMonth = expenses.reduce((acc: Record<number, number>, curr: { date: Date; amount: number }) => {
-    const m = curr.date.getMonth() + 1 // 1-12
+    const m = curr.date.getMonth() + 1
     acc[m] = (acc[m] || 0) + curr.amount
     return acc
   }, {})

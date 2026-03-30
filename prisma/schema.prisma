@@ -41,16 +41,18 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  transactions  Transaction[]
-  categories    Category[]
-  budgets       Budget[]
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?
+  image                 String?
+  accounts              Account[]
+  sessions              Session[]
+  transactions          Transaction[]
+  categories            Category[]
+  budgets               Budget[]
+  recurringTransactions RecurringTransaction[]
+  savingsGoals          SavingsGoal[]
 }
 
 model VerificationToken {
@@ -78,30 +80,77 @@ model Transaction {
 }
 
 model Budget {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   amount       Float
-  month        Int      // 1-12
-  year         Int      // e.g. 2024
+  month        Int       // 1-12
+  year         Int       // e.g. 2024
+  categoryId   String?
+  category     Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  @@unique([userId, month, year])
+  @@unique([userId, month, year, categoryId])
+}
+
+model RecurringTransaction {
+  id          String          @id @default(cuid())
+  amount      Float
+  description String
+  type        TransactionType
+  frequency   Frequency
+  categoryId  String?
+  category    Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  startDate   DateTime        @default(now())
+  nextDueDate DateTime
+  isActive    Boolean         @default(true)
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([userId])
+  @@index([nextDueDate, isActive])
+}
+
+model SavingsGoal {
+  id            String   @id @default(cuid())
+  name          String
+  targetAmount  Float
+  currentAmount Float    @default(0)
+  deadline      DateTime?
+  color         String   @default("#3b82f6")
+  icon          String   @default("PiggyBank")
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model Category {
-  id          String   @id @default(cuid())
-  name        String
-  type        TransactionType
-  color       String?  @default("#3b82f6")
-  icon        String?  @default("Wallet")
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transactions Transaction[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                    String                 @id @default(cuid())
+  name                  String
+  type                  TransactionType
+  color                 String?                @default("#3b82f6")
+  icon                  String?                @default("Wallet")
+  userId                String
+  user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions          Transaction[]
+  budgets               Budget[]
+  recurringTransactions RecurringTransaction[]
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
 }
 
 enum TransactionType {
   INCOME
   EXPENSE
+}
+
+enum Frequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
 }

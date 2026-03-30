@@ -18,18 +18,16 @@ export default async function DashboardPage() {
   const categories = await getCategories();
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Halo, {session.user?.name}! 👋
-          </h1>
-          <p className="mt-1 text-gray-600">
-            Berikut adalah ringkasan keuangan Anda.
-          </p>
-        </div>
-        <DashboardClient initialTransactions={transactions} analytics={analytics} categories={categories} />
+    <div className="py-2 sm:py-4">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)]">
+          Halo, {session.user?.name}! 👋
+        </h1>
+        <p className="mt-1 text-[var(--muted-foreground)]">
+          Berikut adalah ringkasan keuangan Anda.
+        </p>
       </div>
+      <DashboardClient initialTransactions={transactions} analytics={analytics} categories={categories} />
     </div>
   );
 }

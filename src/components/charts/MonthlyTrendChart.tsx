@@ -1,35 +1,44 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
+import { AreaChart, Area, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface IncomeExpenseChartProps {
+interface MonthlyTrendChartProps {
   data: {
-    displayDate: string;
+    month: string;
     income: number;
     expense: number;
   }[];
 }
 
-export default function IncomeExpenseChart({ data }: IncomeExpenseChartProps) {
+export default function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
   return (
-    <Card className="col-span-1 lg:col-span-2">
+    <Card>
       <CardHeader>
-        <CardTitle>Ringkasan 30 Hari Terakhir</CardTitle>
-        <CardDescription>Perbandingan Pemasukan dan Pengeluaran harian Anda.</CardDescription>
+        <CardTitle>Tren Bulanan</CardTitle>
+        <CardDescription>Perbandingan pemasukan dan pengeluaran per bulan.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] sm:h-[350px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+            <AreaChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+              <defs>
+                <linearGradient id="incomeGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="expenseGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#f43f5e" stopOpacity={0} />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
               <XAxis
-                dataKey="displayDate"
+                dataKey="month"
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: "var(--muted-foreground)", fontSize: 11 }}
                 tickMargin={10}
-                minTickGap={40}
               />
               <YAxis
                 axisLine={false}
@@ -43,7 +52,6 @@ export default function IncomeExpenseChart({ data }: IncomeExpenseChartProps) {
                 width={50}
               />
               <Tooltip
-                cursor={{ fill: "var(--muted)", opacity: 0.3 }}
                 contentStyle={{
                   borderRadius: "12px",
                   border: "1px solid var(--border)",
@@ -55,13 +63,25 @@ export default function IncomeExpenseChart({ data }: IncomeExpenseChartProps) {
                 formatter={(value: any) => [`Rp ${Number(value).toLocaleString("id-ID")}`, undefined]}
                 labelStyle={{ fontWeight: "bold", color: "var(--foreground)", marginBottom: "4px" }}
               />
-              <Legend
-                iconType="circle"
-                wrapperStyle={{ paddingTop: "16px", fontSize: "12px" }}
+              <Area
+                type="monotone"
+                dataKey="income"
+                name="Pemasukan"
+                stroke="#10b981"
+                strokeWidth={2}
+                fillOpacity={1}
+                fill="url(#incomeGradient)"
               />
-              <Bar dataKey="income" name="Pemasukan" fill="#10b981" radius={[6, 6, 0, 0]} maxBarSize={32} />
-              <Bar dataKey="expense" name="Pengeluaran" fill="#f43f5e" radius={[6, 6, 0, 0]} maxBarSize={32} />
-            </BarChart>
+              <Area
+                type="monotone"
+                dataKey="expense"
+                name="Pengeluaran"
+                stroke="#f43f5e"
+                strokeWidth={2}
+                fillOpacity={1}
+                fill="url(#expenseGradient)"
+              />
+            </AreaChart>
           </ResponsiveContainer>
         </div>
       </CardContent>
