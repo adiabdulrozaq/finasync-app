@@ -21,30 +21,33 @@ export function AmountInput({
   onChangeValue?: (val: string) => void;
   className?: string;
 }) {
-  const [displayAmount, setDisplayAmount] = useState("");
-  const [rawAmount, setRawAmount] = useState("");
+  const initialVal = value !== undefined ? value : (defaultValue !== undefined ? defaultValue : "0");
+  const parsedInitial = initialVal !== "" && initialVal !== null ? initialVal.toString() : "0";
+  
+  const [displayAmount, setDisplayAmount] = useState(
+    Number(parsedInitial).toLocaleString("id-ID")
+  );
+  const [rawAmount, setRawAmount] = useState(parsedInitial);
 
   useEffect(() => {
     const val = value !== undefined ? value : defaultValue;
     if (val !== undefined && val !== null && val !== "") {
       setRawAmount(val.toString());
       setDisplayAmount(Number(val).toLocaleString("id-ID"));
-    } else if (value === "" || value === 0) {
-      setRawAmount("");
-      setDisplayAmount("");
+    } else {
+      setRawAmount("0");
+      setDisplayAmount("0");
     }
   }, [value, defaultValue]);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const numericValue = e.target.value.replace(/\D/g, "");
-    setRawAmount(numericValue);
-    if (numericValue) {
-      setDisplayAmount(parseInt(numericValue, 10).toLocaleString("id-ID"));
-    } else {
-      setDisplayAmount("");
-    }
+    const finalValue = numericValue || "0";
+    setRawAmount(finalValue);
+    setDisplayAmount(parseInt(finalValue, 10).toLocaleString("id-ID"));
+    
     if (onChangeValue) {
-      onChangeValue(numericValue);
+      onChangeValue(finalValue === "0" ? "" : finalValue);
     }
   };
 
