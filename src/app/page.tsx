@@ -22,7 +22,7 @@ export default function Home() {
         {/* ====== HERO SECTION ====== */}
         <section className="relative w-full overflow-hidden py-20 md:py-32 lg:py-40 px-4">
           {/* Animated background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-violet-50 [data-theme=dark]:from-dark-900 [data-theme=dark]:via-dark-950 [data-theme=dark]:to-dark-900" />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom right, var(--hero-from, #eff6ff), var(--hero-via, #ffffff), var(--hero-to, #f5f3ff))' }} />
           <div className="absolute top-20 left-10 h-72 w-72 rounded-full bg-primary-400/10 blur-3xl animate-float" />
           <div className="absolute bottom-10 right-10 h-96 w-96 rounded-full bg-violet-400/10 blur-3xl animate-float delay-300" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-emerald-400/5 blur-3xl" />
