@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
+import { AmountInput } from "@/components/ui/amount-input";
 
 type RecurringItem = {
   id: string;
@@ -305,14 +306,7 @@ export default function RecurringClient({
                   <label className="block text-sm font-semibold text-[var(--foreground)] mb-1.5">Jumlah (Rp)</label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] font-medium">Rp</span>
-                    <input
-                      type="number"
-                      name="amount"
-                      min="0"
-                      required
-                      placeholder="50000"
-                      className="w-full rounded-xl pl-11 pr-4 py-3.5 text-sm input-base font-medium"
-                    />
+                    <AmountInput />
                   </div>
                 </div>
 

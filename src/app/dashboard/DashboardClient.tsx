@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { createTransaction, deleteTransaction, updateTransaction, exportTransactionsCSV } from "@/actions/transaction";
 import { Plus, ArrowDownCircle, ArrowUpCircle, Wallet, Trash2, Search, Download, Edit3, X, TrendingUp, TrendingDown, Receipt } from "lucide-react";
 import IncomeExpenseChart from "@/components/charts/IncomeExpenseChart";
+import { AmountInput } from "@/components/ui/amount-input";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Transaction = {
@@ -377,7 +378,7 @@ function TransactionModal({
             </div>
             {title}
           </h3>
-          <button onClick={onClose} className="p-1 rounded-lg hover:bg-[var(--muted)] text-[var(--muted-foreground)]">
+          <button type="button" onClick={onClose} className="p-1 rounded-lg hover:bg-[var(--muted)] text-[var(--muted-foreground)]">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -429,15 +430,7 @@ function TransactionModal({
             <label className="block text-sm font-semibold text-[var(--foreground)] mb-1.5">Jumlah (Rp)</label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] font-medium">Rp</span>
-              <input
-                type="number"
-                name="amount"
-                min="0"
-                required
-                defaultValue={defaultValues?.amount}
-                placeholder="50000"
-                className="w-full rounded-xl pl-11 pr-4 py-3.5 text-sm input-base font-medium"
-              />
+              <AmountInput defaultValue={defaultValues?.amount} />
             </div>
           </div>
           {!defaultValues && (

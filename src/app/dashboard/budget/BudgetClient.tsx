@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { createBudget } from "@/actions/budget";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AmountInput } from "@/components/ui/amount-input";
 import { motion } from "framer-motion";
 import { Target, AlertTriangle, ChevronLeft, ChevronRight, TrendingDown, TrendingUp, PiggyBank } from "lucide-react";
 
@@ -138,14 +139,14 @@ export default function BudgetClient({ initialBudgets, spentByMonth, currentYear
                 <CardContent className="pt-5 sm:pt-6">
                   {editingMonth === monthNum ? (
                     <form onSubmit={(e) => handleSaveBudget(e, monthNum)} className="flex gap-2">
-                      <input
-                        type="number"
-                        name="amount"
-                        defaultValue={budgetAmount || ""}
-                        placeholder="Masukkan Anggaran"
-                        className="w-full rounded-xl px-3 py-2 text-sm input-base"
-                        autoFocus
-                      />
+                       <div className="flex-1 w-full min-w-0 bg-transparent">
+                          <AmountInput 
+                            defaultValue={budgetAmount || ""} 
+                            placeholder="Masukkan Anggaran"
+                            className="w-full rounded-xl px-3 py-2 text-sm input-base bg-[var(--card)]"
+                            autoFocus
+                          />
+                       </div>
                       <button
                         type="button"
                         onClick={() => setEditingMonth(null)}

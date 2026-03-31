@@ -15,6 +15,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { AmountInput } from "@/components/ui/amount-input";
 
 type SavingsGoalItem = {
   id: string;
@@ -248,12 +249,12 @@ export default function SavingsClient({
                           <div className="flex gap-2">
                             <div className="relative flex-1">
                               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[var(--muted-foreground)]">Rp</span>
-                              <input
-                                type="number"
+                              <AmountInput
                                 value={addAmount}
-                                onChange={(e) => setAddAmount(e.target.value)}
-                                placeholder="50000"
-                                className="w-full rounded-lg pl-8 pr-3 py-2 text-sm input-base"
+                                onChangeValue={setAddAmount}
+                                name="addAmount"
+                                placeholder="50.000"
+                                className="w-full rounded-lg pl-8 pr-3 py-2 text-sm input-base font-medium"
                                 autoFocus
                               />
                             </div>
@@ -329,13 +330,9 @@ export default function SavingsClient({
                   <label className="block text-sm font-semibold text-[var(--foreground)] mb-1.5">Target Jumlah (Rp)</label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] font-medium">Rp</span>
-                    <input
-                      type="number"
+                    <AmountInput
                       name="targetAmount"
-                      min="1"
-                      required
-                      placeholder="5000000"
-                      className="w-full rounded-xl pl-11 pr-4 py-3.5 text-sm input-base font-medium"
+                      placeholder="5.000.000"
                     />
                   </div>
                 </div>
