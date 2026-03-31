@@ -253,7 +253,6 @@ export default function SavingsClient({
                                 value={addAmount}
                                 onChangeValue={setAddAmount}
                                 name="addAmount"
-                                placeholder="50.000"
                                 className="w-full rounded-lg pl-8 pr-3 py-2 text-sm input-base font-medium"
                                 autoFocus
                               />
@@ -332,7 +331,6 @@ export default function SavingsClient({
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] font-medium">Rp</span>
                     <AmountInput
                       name="targetAmount"
-                      placeholder="5.000.000"
                     />
                   </div>
                 </div>

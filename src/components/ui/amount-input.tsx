@@ -6,7 +6,7 @@ export function AmountInput({
   value,
   defaultValue,
   name = "amount",
-  placeholder = "50.000",
+  placeholder = "0",
   required = true,
   autoFocus = false,
   onChangeValue,

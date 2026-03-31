@@ -142,7 +142,6 @@ export default function BudgetClient({ initialBudgets, spentByMonth, currentYear
                        <div className="flex-1 w-full min-w-0 bg-transparent">
                           <AmountInput 
                             defaultValue={budgetAmount || ""} 
-                            placeholder="Masukkan Anggaran"
                             className="w-full rounded-xl px-3 py-2 text-sm input-base bg-[var(--card)]"
                             autoFocus
                           />
